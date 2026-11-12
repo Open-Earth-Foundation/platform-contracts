@@ -34,7 +34,8 @@ A major version gets a new folder (`openapi/v2/`, `events/v2/`). The previous ma
 **REST API:**
 
 - Removing or renaming a path, method, request field, response field, or query param
-- Changing a field's type or format, or narrowing an enum in a response
+- Changing a field's type or format
+- Removing a value from a request enum (clients that send it would be rejected)
 - Making an optional request field or param required, or adding a new required one
 - Changing the success status code or error response shape
 - Tightening auth (a route that accepted a PAT or OAuth token no longer does)
@@ -50,6 +51,7 @@ Breaking event changes ship as a **new event type** (e.g. `inventory.published.v
 ### What consumers must tolerate
 
 - Unknown fields in responses and event payloads: ignore them.
+- New values in response enums (for example a new status or issue type): handle unknown values gracefully, for instance with a default branch. Adding a response enum value is a MINOR change; the check reports it as a warning, not an error.
 - New event types they did not subscribe to: they will not receive them.
 - Duplicate webhook deliveries: delivery is at-least-once, so use `id` / `X-CityCatalyst-Delivery` as the idempotency key.
 

@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "CityCatalyst API",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "CityCatalyst API for managing greenhouse gas inventories, city data, and climate action planning",
     "contact": {
       "name": "CityCatalyst Support",
@@ -10,8 +10,9 @@
     },
     "x-source": {
       "repo": "Open-Earth-Foundation/CityCatalyst",
+      "ref": "develop",
       "appVersion": "1.28.0-dev.0",
-      "commit": "6140d2e03",
+      "commit": "7cf2bcb15",
       "generator": "app/scripts/build-swagger-doc.ts"
     },
     "x-contract-scope": {
@@ -4507,6 +4508,116 @@
                         "skippedRows": {
                           "type": "integer"
                         },
+                        "scopeWarnings": {
+                          "type": "array",
+                          "description": "Imported rows whose scope is unknown or invalid and could not\nbe set from the document, the reference or the activity type.\n",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "rowNumber": {
+                                "type": "integer"
+                              },
+                              "page": {
+                                "type": "integer",
+                                "nullable": true
+                              },
+                              "text": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "sector": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "subsector": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "value": {
+                                "type": "number",
+                                "nullable": true,
+                                "description": "Total tCO2e; null when the row has no numeric total."
+                              },
+                              "gpcRefNo": {
+                                "type": "string"
+                              },
+                              "scope": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "scopeOrigin": {
+                                "type": "string",
+                                "enum": [
+                                  "document",
+                                  "reference",
+                                  "activity-type",
+                                  "not-applicable",
+                                  "none"
+                                ]
+                              },
+                              "originalScope": {
+                                "type": "string",
+                                "nullable": true,
+                                "description": "The extraction's own scope, only when it differs from scope."
+                              }
+                            }
+                          }
+                        },
+                        "inferredScopeRows": {
+                          "type": "array",
+                          "description": "Imported rows whose scope was not read from the document:\nset from the GPC reference or the activity type, or not\napplicable. Rows held for a decision are not listed.\n",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "rowNumber": {
+                                "type": "integer"
+                              },
+                              "page": {
+                                "type": "integer",
+                                "nullable": true
+                              },
+                              "text": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "sector": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "subsector": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "value": {
+                                "type": "number",
+                                "nullable": true,
+                                "description": "Total tCO2e; null when the row has no numeric total."
+                              },
+                              "gpcRefNo": {
+                                "type": "string"
+                              },
+                              "scope": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "scopeOrigin": {
+                                "type": "string",
+                                "enum": [
+                                  "document",
+                                  "reference",
+                                  "activity-type",
+                                  "not-applicable",
+                                  "none"
+                                ]
+                              },
+                              "originalScope": {
+                                "type": "string",
+                                "nullable": true,
+                                "description": "The extraction's own scope, only when it differs from scope."
+                              }
+                            }
+                          }
+                        },
                         "rows": {
                           "type": "array",
                           "items": {
@@ -4547,6 +4658,7 @@
                                   "omitted-from-total",
                                   "reported-apart-from-total",
                                   "direction-unconfirmed",
+                                  "excluded-reference-unconfirmed",
                                   "reference-conflict",
                                   "skipped-in-review"
                                 ]
@@ -8637,60 +8749,6 @@
         }
       }
     },
-    "/api/v1/concept-notes/{runId}/chat/suggestions": {
-      "post": {
-        "operationId": "proposeConceptNoteChatQuestions",
-        "summary": "Propose two questions for the authorized concept note chat",
-        "tags": [
-          "concept-notes"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "runId",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "language": {
-                    "type": "string"
-                  },
-                  "tab": {
-                    "type": "string",
-                    "enum": [
-                      "draft",
-                      "structure",
-                      "context"
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Two questions, or an empty list for the localized fallback"
-          },
-          "401": {
-            "description": "Authentication required"
-          },
-          "403": {
-            "description": "City or run access denied"
-          }
-        }
-      }
-    },
     "/api/v1/concept-notes/{runId}/chat/threads/{threadId}/activate": {
       "post": {
         "operationId": "activateConceptNoteChatThread",
@@ -9694,6 +9752,81 @@
           },
           "503": {
             "description": "Funding database unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/concept-notes/{runId}/gap-question": {
+      "post": {
+        "operationId": "proposeConceptNoteGapQuestion",
+        "summary": "Generate questions and answer choices for an authorized gap",
+        "tags": [
+          "concept-notes"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "runId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "chapter_id",
+                  "gap_id",
+                  "question"
+                ],
+                "properties": {
+                  "chapter_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "gap_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "nullable": true
+                  },
+                  "question": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  },
+                  "language": {
+                    "type": "string",
+                    "default": "en"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "One to four questions, each with zero or two to five options"
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "City or run access denied"
+          },
+          "404": {
+            "description": "Chapter or legacy question not found"
+          },
+          "409": {
+            "description": "Gap is no longer open"
+          },
+          "503": {
+            "description": "Question generation unavailable; retry or use free text"
           }
         }
       }
@@ -18943,8 +19076,7 @@
                 "type": "object",
                 "required": [
                   "email",
-                  "token",
-                  "cityIds"
+                  "token"
                 ],
                 "properties": {
                   "email": {
@@ -18953,13 +19085,6 @@
                   },
                   "token": {
                     "type": "string"
-                  },
-                  "cityIds": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "format": "uuid"
-                    }
                   }
                 }
               }

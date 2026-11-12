@@ -41,4 +41,4 @@ jobs:
           git show "$PREV_TAG:openapi/v1/citycatalyst-api.json" > /tmp/prev.json
           node scripts/strip-internal.mjs /tmp/prev.json /tmp/base.json
           node scripts/strip-internal.mjs openapi/v1/citycatalyst-api.json /tmp/revision.json
-          oasdiff breaking /tmp/base.json /tmp/revision.json --fail-on ERR
+          oasdiff breaking /tmp/base.json /tmp/revision.json --fail-on ERR --severity-levels oasdiff-severity.txt

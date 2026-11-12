@@ -1,6 +1,6 @@
 {
   "name": "@openearth/platform-contracts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Versioned contracts for the CityCatalyst platform: OpenAPI and webhook event schemas.",
   "type": "module",

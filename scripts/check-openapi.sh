@@ -18,8 +18,11 @@ node "$ROOT/scripts/strip-internal.mjs" "$ROOT/openapi/v1/citycatalyst-api.json"
 node "$ROOT/scripts/strip-internal.mjs" "$CANDIDATE" "$WORK/revision.json"
 
 if command -v oasdiff >/dev/null 2>&1; then
-  oasdiff breaking "$WORK/base.json" "$WORK/revision.json" --fail-on ERR
+  oasdiff breaking "$WORK/base.json" "$WORK/revision.json" --fail-on ERR \
+    --severity-levels "$ROOT/oasdiff-severity.txt"
 else
+  cp "$ROOT/oasdiff-severity.txt" "$WORK/"
   docker run --rm -v "$WORK:/specs:ro" tufin/oasdiff:v1.34.1 \
-    breaking /specs/base.json /specs/revision.json --fail-on ERR
+    breaking /specs/base.json /specs/revision.json --fail-on ERR \
+    --severity-levels /specs/oasdiff-severity.txt
 fi

@@ -1,0 +1,2 @@
+response-property-enum-value-added warn
+response-mediatype-enum-value-added warn
