@@ -1,0 +1,13 @@
+{
+  "id": "7a2d3c1f-4b5e-4f60-8b2c-3d4e5f6a7b8c",
+  "type": "plan.generated",
+  "created_at": "2026-11-10T12:00:00.000Z",
+  "data": {
+    "planId": "3e1b0d43-4f50-4162-9d2e-3f4a5b6c7d8e",
+    "cityId": "1c9f8b21-2d3e-4f40-9b0c-1d2e3f4a5b6c",
+    "organizationId": "2d0a9c32-3e4f-4051-8c1d-2e3f4a5b6c7d",
+    "rankingId": "4f2c1e54-5061-4273-8e3f-4a5b6c7d8e9f",
+    "actionName": "Expand bus rapid transit network",
+    "createdAt": "2026-11-10T12:00:00.000Z"
+  }
+}

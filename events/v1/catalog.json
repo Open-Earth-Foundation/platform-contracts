@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "emitted": {
+    "inventory.published": "inventory.published.schema.json",
+    "plan.generated": "plan.generated.schema.json",
+    "datasource.connected": "datasource.connected.schema.json"
+  },
+  "reserved": [
+    "inventory.unpublished",
+    "inventory.deleted",
+    "datasource.disconnected",
+    "city.created",
+    "organization.updated"
+  ]
+}

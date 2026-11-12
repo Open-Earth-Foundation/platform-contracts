@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Open-Earth-Foundation/platform-contracts/events/v1/inventory.published.schema.json",
+  "title": "inventory.published (v1)",
+  "description": "Fires when an inventory transitions from private to public.",
+  "allOf": [{ "$ref": "envelope.schema.json" }],
+  "properties": {
+    "type": { "const": "inventory.published" },
+    "data": {
+      "type": "object",
+      "required": ["inventoryId", "cityId", "organizationId", "year", "publishedAt"],
+      "properties": {
+        "inventoryId": { "type": "string", "format": "uuid" },
+        "cityId": { "type": "string", "format": "uuid" },
+        "organizationId": { "type": "string", "format": "uuid" },
+        "year": { "type": ["integer", "null"] },
+        "publishedAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

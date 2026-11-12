@@ -1,0 +1,12 @@
+{
+  "id": "8b3e4d2a-5c6f-4071-9c3d-4e5f6a7b8c9d",
+  "type": "datasource.connected",
+  "created_at": "2026-11-10T12:00:00.000Z",
+  "data": {
+    "datasourceId": "5a3d2f65-6172-4384-9f4a-5b6c7d8e9fa0",
+    "inventoryId": "0b8e7a10-1c2d-4e3f-8a9b-0c1d2e3f4a5b",
+    "cityId": "1c9f8b21-2d3e-4f40-9b0c-1d2e3f4a5b6c",
+    "organizationId": "2d0a9c32-3e4f-4051-8c1d-2e3f4a5b6c7d",
+    "datasourceName": "Global Energy Monitor"
+  }
+}

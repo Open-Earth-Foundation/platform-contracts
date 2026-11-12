@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Open-Earth-Foundation/platform-contracts/events/v1/plan.generated.schema.json",
+  "title": "plan.generated (v1)",
+  "description": "Fires when an action plan is newly created (not on regenerate/update).",
+  "allOf": [{ "$ref": "envelope.schema.json" }],
+  "properties": {
+    "type": { "const": "plan.generated" },
+    "data": {
+      "type": "object",
+      "required": ["planId", "cityId", "organizationId", "rankingId", "actionName", "createdAt"],
+      "properties": {
+        "planId": { "type": "string", "format": "uuid" },
+        "cityId": { "type": "string", "format": "uuid" },
+        "organizationId": { "type": "string", "format": "uuid" },
+        "rankingId": { "type": "string" },
+        "actionName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

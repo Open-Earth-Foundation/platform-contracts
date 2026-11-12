@@ -1,0 +1,23 @@
+{
+  "name": "@openearth/platform-contracts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Versioned contracts for the CityCatalyst platform: OpenAPI and webhook event schemas.",
+  "type": "module",
+  "license": "AGPL-3.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "lint:openapi": "spectral lint openapi/v1/citycatalyst-api.json --fail-severity error",
+    "validate:events": "node scripts/validate-event.mjs --examples",
+    "test": "npm run lint:openapi && npm run validate:events"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "devDependencies": {
+    "@stoplight/spectral-cli": "6.17.0"
+  }
+}

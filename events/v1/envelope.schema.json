@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Open-Earth-Foundation/platform-contracts/events/v1/envelope.schema.json",
+  "title": "CityCatalyst webhook envelope (v1)",
+  "description": "JSON body POSTed to every webhook subscriber. The raw body bytes are what the X-CityCatalyst-Signature header signs. Consumers MUST ignore unknown fields.",
+  "type": "object",
+  "required": ["id", "type", "created_at", "data"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Delivery id. Equals the X-CityCatalyst-Delivery header. Use as the idempotency key (delivery is at-least-once)."
+    },
+    "type": {
+      "type": "string",
+      "description": "Event type. The type string is the contract identity; a breaking change ships as a new type (e.g. inventory.published.v2)."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the event was emitted (ISO 8601, UTC)."
+    },
+    "data": {
+      "type": "object",
+      "description": "Event-specific payload. Small ids and scalars only. Always includes organizationId.",
+      "required": ["organizationId"],
+      "properties": {
+        "organizationId": { "type": "string", "format": "uuid" }
+      }
+    }
+  },
+  "x-headers": {
+    "X-CityCatalyst-Event": "Event type (same as envelope.type).",
+    "X-CityCatalyst-Delivery": "Delivery id (same as envelope.id).",
+    "X-CityCatalyst-Timestamp": "Unix seconds at send time.",
+    "X-CityCatalyst-Signature": "sha256=<hex HMAC-SHA256(secret, `${timestamp}.${rawBody}`)>"
+  }
+}

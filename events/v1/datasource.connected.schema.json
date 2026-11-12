@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Open-Earth-Foundation/platform-contracts/events/v1/datasource.connected.schema.json",
+  "title": "datasource.connected (v1)",
+  "description": "Fires when a data source is successfully connected to an inventory.",
+  "allOf": [{ "$ref": "envelope.schema.json" }],
+  "properties": {
+    "type": { "const": "datasource.connected" },
+    "data": {
+      "type": "object",
+      "required": ["datasourceId", "inventoryId", "cityId", "organizationId"],
+      "properties": {
+        "datasourceId": { "type": "string", "format": "uuid" },
+        "inventoryId": { "type": "string", "format": "uuid" },
+        "cityId": { "type": "string", "format": "uuid" },
+        "organizationId": { "type": "string", "format": "uuid" },
+        "datasourceName": { "type": ["string", "null"] }
+      }
+    }
+  }
+}
